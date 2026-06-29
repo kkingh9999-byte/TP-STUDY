@@ -345,3 +345,117 @@ function handleDrugResult(isCorrect) {
     }
     loadNextDrugCard();
 }
+
+// ── 重點整理 ──────────────────────────────────────────────
+function loadNotes() {
+    const container = document.getElementById('notes-content');
+    if (!container) return;
+
+    const notesHTML = `
+<h1 style="font-size:1.8rem;margin-bottom:1.2rem;">🚑 第一週讀書重點整理（第 1 ~ 11 章）</h1>
+
+<div class="glass-card" style="background:rgba(34,197,94,.08);border-left:4px solid #22c55e;padding:1rem 1.5rem;margin-bottom:1.5rem;border-radius:.75rem;">
+  <strong>📌 本週學習策略：</strong>第一週內容偏向「行政、法規、派遣與基礎知識」，雖然臨床操作較少，但法規、倫理與派遣系統（第7章）是國考必考的基本盤。請特別留意專有名詞的定義與醫療指導的層級。
+</div>
+
+<h2 style="font-size:1.4rem;margin:1.5rem 0 .8rem;color:var(--primary);">📖 核心重點整理</h2>
+
+<h3 style="font-size:1.2rem;margin:.8rem 0 .5rem;">第1~2章：EMS概論與台灣緊急醫療救護體系</h3>
+<ul style="line-height:2;padding-left:1.5rem;">
+  <li><strong>兩種 EMS 發展模式</strong>：
+    <ul>
+      <li>🇬🇧 <strong>英美模式 (Scoop and run)</strong>：EMT 初步急救後快速送醫。</li>
+      <li>🇩🇪 <strong>德法模式 (Stay and stabilize)</strong>：醫師到現場穩定病人後再送醫。</li>
+    </ul>
+  </li>
+  <li><strong>醫療指導 (Medical Direction)</strong>：
+    <ul>
+      <li>📞 <strong>線上醫療指導 (On-line)</strong>：救護現場與醫師即時通訊，獲得處置授權。</li>
+      <li>📋 <strong>離線醫療指導 (Off-line)</strong>：預立醫療流程 (Protocol)、品質審查、教育訓練。</li>
+    </ul>
+  </li>
+  <li><strong>雙軌派遣 (Two-tiered system)</strong>：同時派遣 BLS 與 ALS 救護車，BLS 先行處置，ALS 後續接手。</li>
+</ul>
+
+<h3 style="font-size:1.2rem;margin:.8rem 0 .5rem;">第3~4章：角色責任與法律倫理</h3>
+<ul style="line-height:2;padding-left:1.5rem;">
+  <li><strong>醫療倫理四原則</strong>：自主 (Autonomy)、不傷害 (Non-maleficence)、行善 (Beneficence)、公平正義 (Justice)。</li>
+  <li><strong>告知後同意</strong>：對具「意思能力」的病人，必須告知病情、處置與風險後取得同意。</li>
+  <li><strong>推測的同意</strong>：對無意識、危急生命的病人，可依法理推測其同意急救。</li>
+  <li><strong>業務過失標準</strong>：以「一般理性的 EMTP 在相同情況下應有的處置」為判斷基準。</li>
+</ul>
+
+<h3 style="font-size:1.2rem;margin:.8rem 0 .5rem;">第5~6章：職業安全、傳染病與心理衛生</h3>
+<ul style="line-height:2;padding-left:1.5rem;">
+  <li><strong>標準防護措施</strong>：將所有病人體液、血液視為具傳染性。</li>
+  <li>🫁 <strong>空氣傳染 (Airborne)</strong>：肺結核、麻疹 → 需配戴 <span style="color:var(--primary);font-weight:700;">N95 口罩</span>。</li>
+  <li>💧 <strong>飛沫傳染 (Droplet)</strong>：流感、新冠 → 配戴一般外科口罩。</li>
+  <li><strong>PTSD</strong>：症狀持續 <span style="color:#ef4444;font-weight:700;">1 個月以上</span>；首選治療：<strong>心理治療 (CBT/EMDR)</strong>，非藥物。</li>
+</ul>
+
+<h3 style="font-size:1.2rem;margin:.8rem 0 .5rem;">⭐ 第7~8章：派遣系統與社區醫療反應（高頻考點）</h3>
+<div class="glass-card" style="background:rgba(239,68,68,.08);border-left:4px solid #ef4444;padding:1rem 1.5rem;margin-bottom:1rem;border-radius:.75rem;">
+  <strong>🚨 DA-CPR 兩大關鍵問題（必背！）</strong><br>
+  ① 意識是否清醒？　② 呼吸是否正常？<br>
+  ⚠️ 瀕死式呼吸 (Agonal breathing) ≠ 正常呼吸，需立即啟動壓胸指導！
+</div>
+<ul style="line-height:2;padding-left:1.5rem;">
+  <li><strong>MPDS</strong>：透過關鍵問題詢問，決定派遣優先等級，將適當資源派給對的病人。</li>
+  <li><strong>第一反應員</strong>：警察、保全等，目標是在 EMT 到達前提供早期急救，但<strong style="color:#ef4444;">無法取代</strong>專業 EMT。</li>
+</ul>
+
+<h3 style="font-size:1.2rem;margin:.8rem 0 .5rem;">第9~11章：品質管理、科技與科學思考</h3>
+<table style="width:100%;border-collapse:collapse;margin:.5rem 0;">
+  <tr style="background:rgba(255,255,255,.05);">
+    <th style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);text-align:left;">構面</th>
+    <th style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);text-align:left;">說明</th>
+    <th style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);text-align:left;">範例</th>
+  </tr>
+  <tr>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">🏗️ 結構面</td>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">人員、設備、組織</td>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">EMTP 普及率</td>
+  </tr>
+  <tr style="background:rgba(255,255,255,.03);">
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">⚙️ 過程面</td>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">操作流程、處置時間</td>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">接觸到給藥時間</td>
+  </tr>
+  <tr>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">📊 結果面</td>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">病人最終狀態</td>
+    <td style="padding:.6rem 1rem;border:1px solid rgba(255,255,255,.1);">OHCA 存活出院率</td>
+  </tr>
+</table>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.1);margin:2rem 0;">
+
+<h2 style="font-size:1.4rem;margin:1.5rem 0 .8rem;color:var(--primary);">📝 國考預測測驗（自我檢核）</h2>
+
+<div class="glass-card" style="padding:1.2rem 1.5rem;margin-bottom:1rem;border-radius:.75rem;">
+  <p><strong>Q1.</strong> 關於「醫療指導」的敘述，下列何者最正確？</p>
+  <p style="color:var(--text-muted);font-size:.95rem;">(A) 預立醫療流程屬於線上醫療指導　(B) 現場打電話請求醫師授權屬於離線醫療指導　(C) 醫療指導醫師不參與品質審查　<span style="color:#22c55e;font-weight:700;">(D) 品質管理與教育訓練屬於離線醫療指導 ✅</span></p>
+</div>
+
+<div class="glass-card" style="padding:1.2rem 1.5rem;margin-bottom:1rem;border-radius:.75rem;">
+  <p><strong>Q2.</strong> 25歲男性意識清醒但拒絕就醫，你最優先確認？</p>
+  <p style="color:var(--text-muted);font-size:.95rem;"><span style="color:#22c55e;font-weight:700;">(A) 是否具備意思能力 ✅</span>　(B) 聯絡警方強制送醫　(C) 適用推測同意　(D) 等家屬到場代簽</p>
+</div>
+
+<div class="glass-card" style="padding:1.2rem 1.5rem;margin-bottom:1rem;border-radius:.75rem;">
+  <p><strong>Q3.</strong> DA-CPR 兩個關鍵問題是？</p>
+  <p style="color:var(--text-muted);font-size:.95rem;">(A) 詢問過去病史才決定壓胸　<span style="color:#22c55e;font-weight:700;">(B) 意識是否清醒 + 呼吸是否正常 ✅</span>　(C) 有喘息聲代表呼吸正常　(D) 救護車到達即掛斷電話</p>
+</div>
+
+<div class="glass-card" style="padding:1.2rem 1.5rem;margin-bottom:1rem;border-radius:.75rem;">
+  <p><strong>Q4.</strong> 下列何者屬於「結果面 (Outcome)」指標？</p>
+  <p style="color:var(--text-muted);font-size:.95rem;">(A) 到場平均時間　(B) EMTP 比例　<span style="color:#22c55e;font-weight:700;">(C) OHCA 出院存活率 ✅</span>　(D) 車上完成12導程心電圖比率</p>
+</div>
+
+<div class="glass-card" style="padding:1.2rem 1.5rem;margin-bottom:1rem;border-radius:.75rem;">
+  <p><strong>Q5.</strong> 疑似開放性肺結核病人，個人防護裝備應選擇？</p>
+  <p style="color:var(--text-muted);font-size:.95rem;">(A) 一般外科口罩即可　(B) 連身型防護衣　<span style="color:#22c55e;font-weight:700;">(C) N95 口罩 ✅</span>　(D) 插管避免散播</p>
+</div>
+`;
+    container.innerHTML = notesHTML;
+}
