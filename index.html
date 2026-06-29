@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMTP 資深教官訓練系統</title>
+    <!-- Google Fonts: Inter & Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="background-effects">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
+    <header class="glass-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fa-solid fa-star-of-life"></i>
+                <h1>EMTP 教官訓練系統</h1>
+            </div>
+            <div class="stats-overview" id="global-stats">
+                <div class="stat-badge">
+                    <i class="fa-solid fa-check-circle correct-color"></i>
+                    <span id="global-correct">0</span>
+                </div>
+                <div class="stat-badge">
+                    <i class="fa-solid fa-times-circle incorrect-color"></i>
+                    <span id="global-incorrect">0</span>
+                </div>
+                <button id="reset-btn" class="icon-btn" title="重置所有進度"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 導覽列 -->
+        <nav class="main-nav glass-card" style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 1rem; padding: 1rem; border-radius: 1rem;">
+            <button class="btn btn-primary nav-tab active-tab" data-target="notes-view" style="flex: 1; font-size: 1.1rem;">1. 重點整理 (Week 1)</button>
+            <button class="btn btn-secondary nav-tab" data-target="dashboard" style="flex: 1; font-size: 1.1rem;">2. 歷屆考題測驗</button>
+            <button class="btn btn-secondary nav-tab" data-target="flashcard-dashboard" style="flex: 1; font-size: 1.1rem;">3. 簡答題特訓</button>
+        </nav>
+
+        <!-- 重點整理 -->
+        <section id="notes-view" class="view-section active">
+            <div class="glass-card" style="padding: 2rem; max-width: 1000px; margin: 0 auto; text-align: left;">
+                <div id="notes-content" class="explanation-content" style="font-size: 1.1rem; line-height: 1.8;">
+                    <!-- Markdown 內容會由 JS 載入 -->
+                    <i class="fa-solid fa-spinner fa-spin"></i> 筆記載入中...
+                </div>
+            </div>
+        </section>
+
+        <!-- 儀表板 (章節選擇) -->
+        <section id="dashboard" class="view-section hidden">
+            <div class="section-header">
+                <h2>章節測驗清單</h2>
+                <p>請選擇你要挑戰的章節，系統會自動記錄你的答題表現。</p>
+            </div>
+            <div class="chapter-grid" id="chapter-list">
+                <!-- 透過 JS 動態生成 -->
+            </div>
+        </section>
+
+        <!-- 簡答題/特訓選單 -->
+        <section id="flashcard-dashboard" class="view-section hidden">
+            <div class="section-header">
+                <h2>簡答題與記憶特訓</h2>
+                <p>利用閃卡模式快速驗收記憶，目前開放藥物劑量與適應症特訓。</p>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
+                <div class="glass-card" style="text-align: center; padding: 2rem; max-width: 400px; cursor: pointer;" id="start-drug-game-btn">
+                    <i class="fa-solid fa-pills" style="font-size: 4rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">藥物劑量特訓</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">快速翻牌記憶各類急救藥物與劑量</p>
+                    <button class="btn btn-primary" style="width: 100%;">開始特訓</button>
+                </div>
+                <!-- 未來可以擴充其他簡答題 -->
+                <div class="glass-card" style="text-align: center; padding: 2rem; max-width: 400px; opacity: 0.5;">
+                    <i class="fa-solid fa-heart-pulse" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">流程與定義 (即將推出)</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">敬請期待</p>
+                    <button class="btn btn-secondary" style="width: 100%;" disabled>尚未開放</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 測驗介面 -->
+        <section id="quiz-view" class="view-section hidden">
+            <div class="quiz-header">
+                <button id="back-to-dash" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> 返回目錄
+                </button>
+                <h2 id="quiz-chapter-title">第 X 章</h2>
+                <div class="quiz-progress-info">
+                    <span id="quiz-progress-text">進度: 0 / 0</span>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="quiz-progress-bar"></div>
+            </div>
+
+            <div class="quiz-card glass-card" id="question-container">
+                <div class="question-meta">
+                    <span class="badge" id="q-year">113年度</span>
+                    <span class="badge" id="q-num">第 1 題</span>
+                </div>
+                <h3 class="question-text" id="q-text">題目載入中...</h3>
+                
+                <div class="options-container" id="options-list">
+                    <!-- 透過 JS 動態生成 -->
+                </div>
+
+                <div class="action-bar hidden" id="action-bar">
+                    <button id="next-btn" class="btn btn-primary">下一題 <i class="fa-solid fa-arrow-right"></i></button>
+                    <button id="finish-btn" class="btn btn-success hidden">完成測驗 <i class="fa-solid fa-flag-checkered"></i></button>
+                </div>
+            </div>
+
+            <!-- 詳解區塊 -->
+            <div class="explanation-card glass-card hidden" id="explanation-container">
+                <div class="explanation-header">
+                    <i class="fa-solid fa-user-doctor"></i> 教官詳解與佐證
+                </div>
+                <div class="explanation-content" id="exp-text">
+                    <!-- Markdown 轉譯結果 -->
+                </div>
+            </div>
+
+            <!-- 測驗完成結果 -->
+            <div class="result-card glass-card hidden" id="result-container">
+                <h2><i class="fa-solid fa-award"></i> 測驗完成！</h2>
+                <div class="result-stats">
+                    <div class="result-item">
+                        <span class="label">答對</span>
+                        <span class="value correct-color" id="res-correct">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">答錯</span>
+                        <span class="value incorrect-color" id="res-incorrect">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">勝率</span>
+                        <span class="value" id="res-rate">0%</span>
+                    </div>
+                </div>
+                <button id="restart-btn" class="btn btn-primary mt-4">再測一次</button>
+                <button id="back-dash-result" class="btn btn-secondary mt-4">回目錄</button>
+            </div>
+        </section>
+
+        <!-- 藥物劑量特訓介面 (閃卡模式) -->
+        <section id="drug-game-view" class="view-section hidden">
+            <div class="quiz-header">
+                <button id="back-to-dash-drug" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-left"></i> 返回目錄
+                </button>
+                <h2>藥物劑量與適應症特訓</h2>
+                <div class="quiz-progress-info">
+                    <span id="drug-progress-text">剩餘卡片: 0</span>
+                </div>
+            </div>
+
+            <div class="flashcard glass-card" id="drug-flashcard">
+                <div class="question-meta" style="justify-content: center; margin-bottom: 2rem;">
+                    <span class="badge" id="drug-category">類別</span>
+                </div>
+                
+                <h3 class="question-text" id="drug-question" style="text-align: center; font-size: 1.5rem;">題目載入中...</h3>
+                
+                <div style="text-align: center; color: #94a3b8; font-size: 0.9rem; margin-bottom: 2rem;" id="drug-hint">
+                    提示: ...
+                </div>
+
+                <div class="action-bar" id="drug-reveal-action" style="justify-content: center; border-top: none;">
+                    <button id="reveal-drug-btn" class="btn btn-primary">
+                        <i class="fa-solid fa-eye"></i> 顯示答案
+                    </button>
+                </div>
+
+                <div id="drug-answer-container" class="hidden">
+                    <div class="explanation-header" style="justify-content: center; color: #10b981;">
+                        <i class="fa-solid fa-check"></i> 正確解答
+                    </div>
+                    <div class="explanation-content" id="drug-answer-text" style="text-align: center; font-size: 1.25rem; white-space: pre-wrap; font-weight: bold;">
+                        <!-- 解答 -->
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem; color: #94a3b8; font-size: 0.9rem;">請誠實評估你的回答：</div>
+                    <div class="action-bar" style="justify-content: center; gap: 1rem; margin-top: 1rem;">
+                        <button id="drug-wrong-btn" class="btn btn-secondary" style="border-color: #ef4444; color: #ef4444;">
+                            <i class="fa-solid fa-xmark"></i> 答錯了 (重抽)
+                        </button>
+                        <button id="drug-correct-btn" class="btn btn-success">
+                            <i class="fa-solid fa-check"></i> 答對了
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 特訓完成結果 -->
+            <div class="result-card glass-card hidden" id="drug-result-container">
+                <h2><i class="fa-solid fa-graduation-cap"></i> 特訓完成！</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">太棒了！你已經背熟了所有的重點藥物劑量。</p>
+                <button id="restart-drug-btn" class="btn btn-primary mt-4">再來一局</button>
+                <button id="back-dash-drug-result" class="btn btn-secondary mt-4">回目錄</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- 載入資料庫與邏輯 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="questions.js"></script>
+    <script src="drug-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,557 @@
+:root {
+    --bg-dark: #0f172a;
+    --bg-darker: #020617;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --card-hover: rgba(51, 65, 85, 0.8);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-darker);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background Effects */
+.background-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.4;
+}
+
+.glow-1 {
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(59,130,246,0.5) 0%, rgba(2,6,23,0) 70%);
+}
+
+.glow-2 {
+    bottom: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(2,6,23,0) 70%);
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+.mt-4 { margin-top: 1rem; }
+.correct-color { color: var(--success); }
+.incorrect-color { color: var(--danger); }
+
+/* Header */
+.glass-header {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.stats-overview {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.stat-badge {
+    background: rgba(0,0,0,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    border: 1px solid var(--glass-border);
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.view-section {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid var(--glass-border);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+.btn-success:hover { background: #059669; }
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.2s;
+}
+.icon-btn:hover { color: white; }
+
+/* Dashboard */
+.section-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.chapter-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px);
+    background: var(--card-hover);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border-color: rgba(255,255,255,0.2);
+}
+
+.chapter-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.chapter-stats {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 3px;
+    margin-top: 1rem;
+    overflow: hidden;
+    display: flex;
+}
+
+.progress-correct { background: var(--success); height: 100%; }
+.progress-incorrect { background: var(--danger); height: 100%; }
+
+/* Quiz View */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.quiz-header h2 { font-size: 1.5rem; }
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), #60a5fa);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.question-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.badge {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.question-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    white-space: pre-wrap;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.option-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.option-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.option-btn:disabled { cursor: default; }
+
+.opt-label {
+    font-weight: bold;
+    color: var(--text-muted);
+}
+
+/* 答題結果樣式 */
+.option-btn.correct {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: var(--success);
+}
+
+.option-btn.wrong {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: var(--danger);
+    opacity: 0.7;
+}
+
+.action-bar {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Explanation */
+.explanation-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #fcd34d;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 0.75rem;
+}
+
+.explanation-content {
+    line-height: 1.7;
+    color: #e2e8f0;
+}
+
+.explanation-content h1, .explanation-content h2, .explanation-content h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.explanation-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.explanation-content blockquote {
+    border-left: 4px solid var(--primary);
+    padding-left: 1rem;
+    margin-top: 1rem;
+    background: rgba(0,0,0,0.2);
+    padding: 1rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Result Card */
+.result-card {
+    text-align: center;
+}
+
+.result-card h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #fcd34d;
+}
+
+.result-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.result-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.result-item .label {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+.result-item .value {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .header-content { flex-direction: column; gap: 1rem; }
+    .quiz-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    .result-stats { flex-direction: column; gap: 1rem; }
+}
+
+/* ===========================
+   藥物閃卡特訓 (Drug Flashcard)
+   =========================== */
+
+/* 入口按鈕脈衝動畫 */
+#start-drug-game-btn {
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+#start-drug-game-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.7);
+}
+#start-drug-game-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+#start-drug-game-btn:hover::after { opacity: 1; }
+
+/* 閃卡容器 */
+.flashcard {
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 30px rgba(139, 92, 246, 0.15);
+    transition: all 0.3s ease;
+    animation: cardEntrance 0.4s ease-out;
+}
+
+@keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 答案展開動畫 */
+#drug-answer-container {
+    animation: revealAnswer 0.35s ease-out;
+}
+@keyframes revealAnswer {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 藥物類別 badge 顏色 */
+#drug-category {
+    background: rgba(139, 92, 246, 0.2);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    font-size: 0.95rem;
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+}
+
+/* 答案文字樣式 */
+#drug-answer-text {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: left !important;
+    font-weight: 500 !important;
+}
+
+/* 答對/答錯按鈕 */
+#drug-correct-btn {
+    min-width: 140px;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s;
+}
+#drug-correct-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+#drug-wrong-btn {
+    min-width: 140px;
+    font-size: 1.05rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.5) !important;
+    color: #fca5a5 !important;
+    transition: all 0.2s;
+}
+#drug-wrong-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-2px);
+}
+
+/* 特訓完成結果 */
+#drug-result-container h2 {
+    color: #a78bfa;
+}
+#drug-result-container p {
+    color: var(--text-muted);
+}
+
+/* 剩餘卡片進度標籤 */
+#drug-progress-text {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c4b5fd;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
